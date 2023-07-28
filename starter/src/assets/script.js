@@ -1,5 +1,23 @@
 /* Create an array named products which you will use to add all of your product object literals that you create in the next step. */
+const products = [
+  {name:'cherry', 
+  price: 10,
+  quantity: 0, 
+  productId:8989, 
+  image:'../images/cherry.jpg' },
 
+  {name:'orange',
+  price: 15, 
+  quantity: 0, 
+  productId:8988, 
+  image: '../images/orange.jpg'},
+
+  {name:'strawberry',
+  price: 12, 
+  quantity: 0, 
+  productId:8990, 
+  image: '../images/strawberry.jpg'},
+]
 /* Create 3 or more product objects using object literal notation 
    Each product should include five properties
    - name: name of product (string)
@@ -16,42 +34,111 @@
 */
 
 /* Declare an empty array named cart to hold the items in the cart */
+const cart = [];
 
 /* Create a function named addProductToCart that takes in the product productId as an argument
   - addProductToCart should get the correct product based on the productId
   - addProductToCart should then increase the product's quantity
   - if the product is not already in the cart, add it to the cart
 */
+function addProductToCart(productId) {
+  const product = products.find(element => element.productId == productId);
+  const isProductNotInCart = cart.findIndex(element => element.productId == productId) === -1;
+
+  if(isProductNotInCart) {
+    product.quantity = 1;
+    cart.push(product);
+  } 
+  else {
+     cart.forEach(element => {
+       if(element.productId === productId) {
+         element.quantity += 1;
+       }
+     }) 
+  }
+}
 
 /* Create a function named increaseQuantity that takes in the productId as an argument
   - increaseQuantity should get the correct product based on the productId
   - increaseQuantity should then increase the product's quantity
 */
-
+function increaseQuantity(productId) {
+  cart.forEach(element => {
+      if(element.productId === productId) {
+        element.quantity += 1;
+        
+      }
+    })
+}
 /* Create a function named decreaseQuantity that takes in the productId as an argument
   - decreaseQuantity should get the correct product based on the productId
   - decreaseQuantity should decrease the quantity of the product
   - if the function decreases the quantity to 0, the product is removed from the cart
 */
+function decreaseQuantity(productId) {
+  cart.forEach((element, index) => {
+      if(element.productId === productId && element.quantity > 1) {
+        element.quantity -= 1;
+      } 
+      else if (element.productId === productId && element.quantity == 1) {
+        cart.splice(index, 1);
+        element.quantity = 0;
 
+      }
+    })
+}
 /* Create a function named removeProductFromCart that takes in the productId as an argument
   - removeProductFromCart should get the correct product based on the productId
   - removeProductFromCart should update the product quantity to 0
   - removeProductFromCart should remove the product from the cart
 */
-
+function removeProductFromCart(productId) {
+  cart.forEach((element, index) => {
+      if (element.productId === productId) {
+        element.quantity = 0;
+        cart.splice(index, 1);
+      }
+    })
+}
 /* Create a function named cartTotal that has no parameters
+
   - cartTotal should iterate through the cart to get the total of all products
   - cartTotal should return the sum of the products in the cart
 */
 
+function cartTotal() {
+  let total = 0;
+  for(let i = 0; i < cart.length; i++) {
+    total += cart[i].price *cart[i].quantity;
+  }
+
+  return total;
+}
+
+function emptyCart() {
+  cart = [];
+}
 /* Create a function called emptyCart that empties the products from the cart */
 
 /* Create a function named pay that takes in an amount as an argument
   - pay will return a negative number if there is a remaining balance
   - pay will return a positive number if money should be returned to customer
 */
+function emptyCart() {
+  cart = [];
+}
+let totalPaid = 0;
 
+function pay(amount) {
+  const totalInCart = cartTotal();
+   totalPaid += amount;
+  const balance = totalPaid - totalInCart;
+   if(balance >= 0) {
+    totalPaid = 0;
+
+  }
+  return balance;
+}
 /* Place stand out suggestions here (stand out suggestions can be found at the bottom of the project rubric.)*/
 
 
